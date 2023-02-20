@@ -1,9 +1,13 @@
 import { Router } from 'express';
 import { AuthorController } from '../controllers/AuthorController';
 import { AuthorService } from '../services/AuthorService';
+import { BaseRepository } from '../repositories/BaseRepository';
+import { Author } from '../entities/Author';
+import { IBaseRepository } from '../interfaces/IBaseRepository';
 
 const authorRoutes = Router();
-const authorService = new AuthorService();
+const authorRepository: IBaseRepository<Author> = new BaseRepository<Author>();
+const authorService = new AuthorService(authorRepository);
 const authorController = new AuthorController(authorService);
 
 authorRoutes.get('/get', authorController.getAllAuthor);
